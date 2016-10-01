@@ -1,0 +1,19 @@
+From: Matthias Schiffer <mschiffer@universe-factory.net>
+Date: Tue, 27 Sep 2016 02:46:59 +0200
+Subject: ar71xx: enable HSR tuner on Ubiquiti UAP Outdoor+
+
+Based-on-patch-by: Stefan Rompf <stefan@loplof.de>
+Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+
+diff --git a/target/linux/ar71xx/files/arch/mips/ath79/mach-ubnt-xm.c b/target/linux/ar71xx/files/arch/mips/ath79/mach-ubnt-xm.c
+index bb5b28f..7f7d1f9 100644
+--- a/target/linux/ar71xx/files/arch/mips/ath79/mach-ubnt-xm.c
++++ b/target/linux/ar71xx/files/arch/mips/ath79/mach-ubnt-xm.c
+@@ -279,6 +279,7 @@ static void __init ubnt_unifi_outdoor_plus_setup(void)
+ 	ath79_register_eth(0);
+ 	ath79_register_eth(1);
+ 
++	ap9x_pci_get_wmac_data(0)->ubnt_hsr = true;
+ 	ap91_pci_init(ee, NULL);
+ 
+ 	ath79_register_leds_gpio(-1, ARRAY_SIZE(ubnt_unifi_outdoor_plus_leds_gpio),

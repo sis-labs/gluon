@@ -5,11 +5,9 @@ shopt -s nullglob
 
 . "$GLUONDIR"/scripts/modules.sh
 
-TMPDIR="$GLUON_BUILDDIR"/tmp
+mkdir -p "$GLUON_TMPDIR"
 
-mkdir -p "$TMPDIR"
-
-PATCHDIR="$TMPDIR"/patching
+PATCHDIR="$GLUON_TMPDIR"/patching
 trap 'rm -rf "$PATCHDIR"' EXIT
 
 for module in $GLUON_MODULES; do
@@ -24,7 +22,11 @@ for module in $GLUON_MODULES; do
 
 	cd "$GLUONDIR"/$module
 	git fetch "$PATCHDIR" 2>/dev/null
-	git checkout -B patched FETCH_HEAD
+	git checkout -B patched FETCH_HEAD >/dev/null
+
+	git config branch.patched.remote .
+	git config branch.patched.merge refs/heads/base
+
 	git submodule update --init --recursive
 
 	rm -rf "$PATCHDIR"
